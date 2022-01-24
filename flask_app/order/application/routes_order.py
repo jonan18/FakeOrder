@@ -1,9 +1,10 @@
 from flask import current_app as app
 from flask import request, jsonify, abort
 from werkzeug.exceptions import NotFound, BadRequest, UnsupportedMediaType, Unauthorized
+import random
 
+from time import sleep
 from . import Session
-from . import publisher_order
 from .auth import RsaSingleton
 from .model_order import Order
 
@@ -24,7 +25,7 @@ def create_order():
             client_id=content['client_id'],
             number_of_pieces=content['number_of_pieces'],
             pieces_created=0,
-            status=Order.STATUS_WAITING_FOR_PAYMENT
+            status=Order.STATUS_CREATED
         )
         session.add(new_order)
         session.commit()
@@ -32,8 +33,10 @@ def create_order():
         datos = {"number_of_pieces": new_order.number_of_pieces,
                  "client_id": new_order.client_id,
                  "order_id": new_order.id}
-        # publisher_order.publish_msg("event_exchange", "order.created", str(datos))
+        #active_order_ids.append(new_order.id)
         print(datos)
+        #print(active_order_ids)
+
     except KeyError:
         session.rollback()
         session.close()
@@ -72,9 +75,36 @@ def delete_order(order_id):
     order = session.query(Order).get(order_id)
     if not order:
         abort(NotFound.code, "Order not found for given order id")
-    publisher_order.publish_msg("event_exchange", "order.deleted", str(order.id))
     session.delete(order)
     session.commit()
     response = jsonify(order.as_dict())
     session.close()
     return response
+
+
+@app.route('/rand_piece', methods=['POST'])
+def create_random_piece():
+    session = Session()
+    active_order_ids = []
+    orders = session.query(Order).all()
+    for o in orders:
+        if o.pieces_created >= o.number_of_pieces:
+            o.status = Order.STATUS_FINISHED
+        else:
+            active_order_ids.append(o)
+    print(active_order_ids)
+
+    if len(active_order_ids) > 0:
+        try:
+            i = random.randint(0, len(active_order_ids)-1)
+            print("Pieza para Order ID: {}".format(active_order_ids[i].id))
+            active_order_ids[i].pieces_created += 1
+        except KeyError as e:
+            session.rollback()
+            print(e, flush=True)
+
+    session.commit()
+    response = jsonify("OK!")
+    session.close()
+    return response
+
