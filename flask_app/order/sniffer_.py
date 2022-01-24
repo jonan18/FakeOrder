@@ -1,10 +1,13 @@
 import socket
 import struct
 import binascii
+import logging
 
-# creating a rawSocket for communications
-# PF_SOCKET (packet interface), SOCK_RAW (Raw socket) - htons (protocol) 0x08000 = IP Protocol
-import time
+
+logging.basicConfig(
+    format='%(asctime)s - %(src_ip)s - %(dst_ip)s - %(src_port)s - %(dst_port)s',
+    level=logging.INFO,
+    filename='honeypot_logs.log')
 
 rawSocket = socket.socket(socket.PF_PACKET, socket.SOCK_RAW, socket.htons(0x0800))
 while True:
@@ -19,14 +22,14 @@ while True:
 
     ipHeader = pkt[0][14:34]
     ip_hdr = struct.unpack("!12s4s4s", ipHeader) # 12s represents Identification, Time to Live, Protocol | Flags, Fragment Offset, Header Checksum
-    print("Source IP address %s" % socket.inet_ntoa(ip_hdr[1])) # network to ascii convertion
-    print("Destination IP address %s" % socket.inet_ntoa(ip_hdr[2])) # network to ascii convertion
+    print("Source IP address %s" % socket.inet_ntoa(ip_hdr[1]))# network to ascii convertion
+    print("Destination IP address %s" % socket.inet_ntoa(ip_hdr[2]))# network to ascii convertion
 
     # unapck the TCP header (source and destination port numbers)
     tcpHeader = pkt[0][34:54]
     tcp_hdr = struct.unpack("!HH16s", tcpHeader)
     print("Source Source Port: %s" % tcp_hdr[0])
     print("Source Destination Port: %s" % tcp_hdr[1])
-    if tcp_hdr[0] != 22:
-        time.sleep(60)
-        print("UWU")
+
+    logging.info('SRC_IP: {} - DST_IP: {} - SRC_Port: {} - DST_Port: {} -'.format(socket.inet_ntoa(ip_hdr[1]), socket.inet_ntoa(ip_hdr[2]), tcp_hdr[0], tcp_hdr[1]))
+
