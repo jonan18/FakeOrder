@@ -4,6 +4,8 @@ import binascii
 
 # creating a rawSocket for communications
 # PF_SOCKET (packet interface), SOCK_RAW (Raw socket) - htons (protocol) 0x08000 = IP Protocol
+import time
+
 rawSocket = socket.socket(socket.PF_PACKET, socket.SOCK_RAW, socket.htons(0x0800))
 while True:
     pkt = rawSocket.recvfrom(2048) # tuple return
@@ -25,3 +27,5 @@ while True:
     tcp_hdr = struct.unpack("!HH16s", tcpHeader)
     print("Source Source Port: %s" % tcp_hdr[0])
     print("Source Destination Port: %s" % tcp_hdr[1])
+    if tcp_hdr[0] != 22:
+        time.sleep(30)
