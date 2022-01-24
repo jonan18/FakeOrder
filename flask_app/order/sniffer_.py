@@ -5,7 +5,8 @@ import logging
 
 
 logging.basicConfig(
-    format='%(asctime)s - %(src_ip)s - %(dst_ip)s - %(src_port)s - %(dst_port)s',
+    #format='%(asctime)s - %(src_ip)s - %(dst_ip)s - %(src_port)s - %(dst_port)s',
+    format='%(asctime)s - %(name)s - %(levelname)s - %(message)s',
     level=logging.INFO,
     filename='honeypot_logs.log')
 
@@ -31,5 +32,5 @@ while True:
     print("Source Source Port: %s" % tcp_hdr[0])
     print("Source Destination Port: %s" % tcp_hdr[1])
 
-    logging.info('SRC_IP: {} - DST_IP: {} - SRC_Port: {} - DST_Port: {} -'.format(socket.inet_ntoa(ip_hdr[1]), socket.inet_ntoa(ip_hdr[2]), tcp_hdr[0], tcp_hdr[1]))
+    logging.info('SRC_IP: {} - DST_IP: {} - SRC_Port: {} - DST_Port: {} '.format(str(socket.inet_ntoa(ip_hdr[1])), str(socket.inet_ntoa(ip_hdr[2])), str(tcp_hdr[0]), str(tcp_hdr[1])))
 
