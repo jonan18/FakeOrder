@@ -36,10 +36,14 @@ def tcp_head(raw_data):
     return src_port, dest_port, sequence, acknowledgment, flag_urg, flag_ack, flag_psh, flag_rst, flag_syn, flag_fin, data
 
 
+def get_ip(addr):
+    return '.'.join(map(str, addr))
+
 s = socket.socket(socket.AF_PACKET, socket.SOCK_RAW, socket.ntohs(3))
 while True:
     raw_data, addr = s.recvfrom(65535)
-    eth = ethernet(raw_data)
+    # eth = ethernet(raw_data)
+    eth = ethernet_head(raw_data)
     print('\nEthernet Frame:')
     print('Destination: {}, Source: {}, Protocol: {}'.format(eth[0], eth[1],
                                                              eth[2]))
