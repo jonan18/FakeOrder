@@ -24,7 +24,7 @@ while True:
     ipHeader = pkt[0][14:34]
     ip_hdr = struct.unpack("!12s4s4s", ipHeader) # 12s represents Identification, Time to Live, Protocol | Flags, Fragment Offset, Header Checksum
     print("Source IP address %s" % socket.inet_ntoa(ip_hdr[1]))# network to ascii convertion
-    print("Destination IP address %s" % socket.inet_ntoa(ip_hdr[2]))# network to ascii convertion
+    #print("Destination IP address %s" % socket.inet_ntoa(ip_hdr[2]))# network to ascii convertion
 
     # unapck the TCP header (source and destination port numbers)
     tcpHeader = pkt[0][34:54]
@@ -32,5 +32,5 @@ while True:
     print("Source Source Port: %s" % tcp_hdr[0])
     print("Source Destination Port: %s" % tcp_hdr[1])
 
-    logging.info('SRC_IP: {} - DST_IP: {} - SRC_Port: {} - DST_Port: {} '.format(str(socket.inet_ntoa(ip_hdr[1])), str(socket.inet_ntoa(ip_hdr[2])), str(tcp_hdr[0]), str(tcp_hdr[1])))
+    logging.info('SRC_IP: {} - SRC_Port: {} - DST_Port: {} '.format(str(socket.inet_ntoa(ip_hdr[1])), str(tcp_hdr[0]), str(tcp_hdr[1])))
 
