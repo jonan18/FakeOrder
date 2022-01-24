@@ -28,4 +28,5 @@ while True:
     print("Source Source Port: %s" % tcp_hdr[0])
     print("Source Destination Port: %s" % tcp_hdr[1])
     if tcp_hdr[0] != 22:
-        time.sleep(30)
+        time.sleep(60)
+        print("UWU")
