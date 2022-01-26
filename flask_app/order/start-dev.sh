@@ -1,11 +1,17 @@
 python3 app.py &
 pid=$!
-echo "Process ID !" $pid
+echo "Process ID HNP!" $pid
+sleep 10
+
+sudo python sniffer.py &
+pid2=$!
+echo "Process ID HNP!" $pid2
 sleep 10
 
 function trap_ctrlc ()
 {
   kill $pid
+  kill $pid2
   exit 2
 }
 
