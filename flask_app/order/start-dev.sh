@@ -1,4 +1,4 @@
-python app.py &
+python3 app.py &
 pid=$!
 echo "Process ID !" $pid
 sleep 10
