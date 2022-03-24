@@ -14,3 +14,10 @@ class Config:
     CLIENT_IP = environ.get("CLIENT_IP")
     GUNICORN_PORT = environ.get("GUNICORN_PORT")
 
+
+class TestingConfig(Config):
+    """" Configurating for testing , with a separate test database"""
+    TESTING = True
+    SQLALCHEMY_DATABASE_URI = environ.get("SQLALCHEMY_DATABASE_URI")
+    DEBUG = True
+

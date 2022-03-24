@@ -6,7 +6,7 @@
 	},
 	"item": [
 		{
-			"name": "http://localhost:13003/order",
+			"name": "http://localhost:8000/order",
 			"request": {
 				"auth": {
 					"type": "noauth"
@@ -15,7 +15,7 @@
 				"header": [],
 				"body": {
 					"mode": "raw",
-					"raw": "{\n    \"description\": \"New order created from REST API\",\n    \"number_of_pieces\": 5,\n    \"client_id\":2\n}",
+					"raw": "{\n    \"description\": \"New order created from REST API\",\n    \"number_of_pieces\": 4,\n    \"client_id\":1\n}",
 					"options": {
 						"raw": {
 							"language": "json"
@@ -23,12 +23,12 @@
 					}
 				},
 				"url": {
-					"raw": "http://localhost:13003/order",
+					"raw": "http://localhost:8000/order",
 					"protocol": "http",
 					"host": [
 						"localhost"
 					],
-					"port": "13003",
+					"port": "8000",
 					"path": [
 						"order"
 					]
@@ -37,7 +37,7 @@
 			"response": []
 		},
 		{
-			"name": "http://localhost:13003/rand_piece",
+			"name": "http://localhost:8000/rand_piece",
 			"request": {
 				"auth": {
 					"type": "noauth"
@@ -54,12 +54,12 @@
 					}
 				},
 				"url": {
-					"raw": "http://localhost:13003/rand_piece",
+					"raw": "http://localhost:8000/rand_piece",
 					"protocol": "http",
 					"host": [
 						"localhost"
 					],
-					"port": "13003",
+					"port": "8000",
 					"path": [
 						"rand_piece"
 					]
@@ -68,17 +68,17 @@
 			"response": []
 		},
 		{
-			"name": "http://localhost:13003/orders",
+			"name": "http://localhost:8000/orders",
 			"request": {
 				"method": "GET",
 				"header": [],
 				"url": {
-					"raw": "http://localhost:13003/orders",
+					"raw": "http://localhost:8000/orders",
 					"protocol": "http",
 					"host": [
 						"localhost"
 					],
-					"port": "13003",
+					"port": "8000",
 					"path": [
 						"orders"
 					]
@@ -87,40 +87,40 @@
 			"response": []
 		},
 		{
-			"name": "http://localhost:13003/order/X",
+			"name": "http://localhost:8000/order/X",
 			"request": {
 				"method": "GET",
 				"header": [],
 				"url": {
-					"raw": "http://localhost:13003/order/2",
+					"raw": "http://localhost:8000/order/12",
 					"protocol": "http",
 					"host": [
 						"localhost"
 					],
-					"port": "13003",
+					"port": "8000",
 					"path": [
 						"order",
-						"2"
+						"12"
 					]
 				}
 			},
 			"response": []
 		},
 		{
-			"name": "http://localhost:13003/order/X",
+			"name": "http://localhost:8000/order/X",
 			"request": {
 				"method": "DELETE",
 				"header": [],
 				"url": {
-					"raw": "http://localhost:13003/order/5",
+					"raw": "http://localhost:8000/order/1",
 					"protocol": "http",
 					"host": [
 						"localhost"
 					],
-					"port": "13003",
+					"port": "8000",
 					"path": [
 						"order",
-						"5"
+						"1"
 					]
 				}
 			},

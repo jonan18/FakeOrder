@@ -1,0 +1,34 @@
+version: '3.1'
+services:
+  order:
+    build: .
+    container_name: order
+    expose:
+      - '${ORDER_PORT}'
+    ports:
+      - '${ORDER_PORT}:${GUNICORN_PORT}'
+    volumes:
+      - '.:/app'
+    environment:
+      ORDER_PORT: '${ORDER_PORT}'
+      GUNICORN_PORT: '${GUNICORN_PORT}'
+      #SQLALCHEMY_DATABASE_URI: 'mysql+mysqlconnector://${MYSQL_USER}:${MYSQL_PASSWORD}@db:${MYSQL_PORT}/${MYSQL_DATABASE}'
+      SQLALCHEMY_DATABASE_URI: '${SQLALCHEMY_SQLITE_DATABASE_URI}'
+      SQLALCHEMY_TRACK_MODIFICATIONS: '${SQLALCHEMY_TRACK_MODIFICATIONS}'
+      ORDER_IP: '${ORDER_IP}'
+      SERVICE_NAME: 'order'
+      SERVICE_ID: 'order'
+      PYTHONBUFFERED: 1
+      PYTHONWARNINGS: ignore:Unverified HTTPS request
+    networks:
+      lb7_network:
+        ipv4_address: '${ORDER_IP}'
+    restart: unless-stopped
+
+networks:
+  lb7_network:
+    driver: bridge
+    ipam:
+      driver: default
+      config:
+        - subnet: '${NETWORK_SUBNET}'

@@ -29,3 +29,7 @@ bcrypt
 # crypto
 pycryptodome
 cryptography
+
+#test
+pytest==5.3.1
+pytest-cov==2.8.1
